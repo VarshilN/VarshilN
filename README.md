@@ -1,4 +1,4 @@
-Currently completeing IITD CSE course.
+Currently completeing IITD CSE (2nd year).
 coding on leetcode
 
 languages:c++,python,javascript,mySQL
