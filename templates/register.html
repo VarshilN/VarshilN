@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>NEW USER</title>
+    <link rel="stylesheet" type="text/css" href="../static/style/register.css">
+</head>
+
+<body>
+
+    <!-- Left Section for Art/Image -->
+    <div class="left-section">
+        <!-- Add your art/image or other content here -->
+        <img src="your-image.jpg" alt="Art or Image">
+    </div>
+
+    <!-- Right Section for Form -->
+    <div class="right-section">
+        <div class="right-content">
+            <h1>Welcome New User!</h1>
+            <form action="/dashboard">
+                <input name="name" placeholder="Full Name" required>
+                <input name="email" placeholder="E-Mail ID" required>
+                {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+                {% endif %}
+                <input name="password" type="password" placeholder="Password" required>
+                <input name="confirm_password" type="password" placeholder="Confirm Password" required>
+                <button type="submit">Create Account</button>
+            </form>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
+            {% if registration_success_message %}
+            <p style="color: green;">{{ registration_success_message }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

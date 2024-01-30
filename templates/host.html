@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host</title>
+    <style>
+        body {
+
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        form {
+            margin-right: 1rem;
+        }
+
+        .clickable-box {
+            width: 187.5px;
+            height: 100px;
+            border-radius: 10px;
+            background-color: #fff;
+            margin: 10px;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .clickable-box:hover {
+            background-color: #f0f0f0;
+        }
+
+        .clickable-box h4 {
+            margin: 0;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        section {
+            margin: 0 2rem;
+        }
+
+        h3 {
+            font-weight: lighter;
+        }
+
+        h1 {
+            margin: 0 0 1rem;
+            color: #333;
+        }
+
+        #sign {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5rem;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            color: #ffc107;
+            margin: 0 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn.btn-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* Ensures rounded corners are applied */
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .gainer-card,
+        .loser-card {
+            background-color: #fff;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gainer-card:hover,
+        .loser-card:hover {
+            transform: scale(1.02);
+        }
+
+        .gainer-card h3,
+        .loser-card h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .gainer-card h5,
+        .loser-card h5 {
+            color: #666;
+        }
+
+        .change-positive {
+            color: #198754;
+        }
+
+        .change-negative {
+            color: #d9534f;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="index">
+        <h1>Index</h1>
+        <div class="row">
+            <a class="clickable-box" href="/plot?src=NIFTY 50&search_type=index">
+                <h4>NIFTY 50</h4>
+            </a>
+        </div>
+        <section class="card">
+            <h1>Top Gainers (by price change):</h1>
+            {%for stock in gainers%}
+            <div class="gainer-card card-body">
+                <h3>{{stock['meta']['companyName']}}</h3>
+                <h5>{{stock['symbol']}}</h5>
+                {% if stock['pChange'] > 0 %}
+                <h5>Price Change: </h5>
+                <p class="change-positive">{{stock['change']}}</p>
+                <h5>Price Change(%): </h5>
+                <p class="change-positive">{{stock['pChange']}}</p>
+                {% else %}
+                <h5>Price Change:</h5>
+                <p class="change-negative">{{stock['change']}}</p>
+                <h5>Price Change(%):</h5>
+                <p class="change-negative">{{stock['pChange']}}</p>
+                {%endif%}
+            </div>
+            {%endfor%}
+            <h1>Top Losers (by price change):</h1>
+            {%for stock in losers%}
+            <div class="loser-card card-body">
+                <h3>{{stock['meta']['companyName']}}</h3>
+                <h5>{{stock['symbol']}}</h5>
+                {% if stock['pChange'] > 0 %}
+                <h5>Price Change: </h5>
+                <p class="change-positive">{{stock['change']}}</p>
+                <h5> Price Change(%):</h5>
+                <p class="change-positive">{{stock['pChange']}}</p>
+                {% else %}
+                <h5>Price Change:</h5>
+                <p class="change-negative">{{stock['change']}}</p>
+                <h5>Price Change(%):</h5>
+                <p class="change-negative">{{stock['pChange']}}</p>
+                {%endif%}
+            </div>
+            {%endfor%}
+        </section>
+    </section>
+    <section id="sign">
+        <h1>Please SignUp for more Features!!</h1>
+        <div class="text-end">
+            <a class="btn btn-outline-light" method="POST" href="{{url_for('login')}}">Login</a>
+            <a class="btn btn-warning" method="POST" href="{{url_for('register')}}">Sign-up</a>
+        </div>
+    </section>
+</body>
+
+</html>

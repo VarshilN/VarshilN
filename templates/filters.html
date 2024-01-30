@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Visualization</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #list_of_stocks {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="mb-5">Stock Price Visualization</h1>
+    <form action="/filters" role="search">
+        <input name="src" type="search" class="form-control form-control-primary " placeholder="Search for Index..."
+            aria-label="Search">
+        <label for="search_type">Filter By:</label>
+        <select id="search_type" name="filters" required>
+            <option value="pchg">PRICE CHANGE</option>
+            <option value="pe">Trailing PE Ratio</option>
+            <option value="avg">Price Average</option>
+            <!-- <option value="peg">PE to growth</option> -->
+            <option value="pb">Price to book value</option>
+            <option value="mcap">MarketCap(cr)</option>
+            <!-- <option value="roe">Return to Equity</option> -->
+            <option value="div">Dividend Yield</option>
+        </select>
+        <button type="submit">Get</button>
+    </form>
+    <div id="status">
+        <h1>{{idx|safe}}</h1>
+    </div>
+    <div id="list_of_stocks">
+        {% for stock in filtered_stocks %}
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title"> {{stock['cname']}}</h3>
+                <h5 class="card-title">{{ stock['sym'] }}</h5>
+                {% if flag==1 and stock['pchg']!='N/A'%}
+                <p class="card-text">pChange: {{ stock['pchg']}}</p>
+                {%endif%}
+                {% if flag==2 and stock['avg']!='N/A' %}
+                <p class="card-text">avgPrice: {{ '{:.2f}'.format(stock['avg']) }}</p>
+                {% endif %}
+
+                {% if flag==3 and stock['pe']!='N/A' %}
+                <p class="card-text">Trailing P/E RATIO: {{ '{:.2f}'.format(stock['pe']) }}</p>
+                {% endif %}
+
+                {% if flag==4 and stock['pb']!='N/A' %}
+                <p class="card-text">Price to book value: {{ '{:.2f}'.format(stock['pb']) }}</p>
+                {% endif %}
+
+                <!-- {% if flag==5 and stock['peg']!='N/A' %}
+                <p class="card-text">PE TO GROWTH RATIO: {{ '{:.2f}'.format(stock['peg']) }}</p>
+                {% endif %} -->
+                <!-- {% if flag==6 and stock['roe']!='N/A' %}
+                <p class="card-text">RETURN TO EQUITY: {{stock['roe'] }}</p>
+                {% endif %} -->
+                {% if flag==7 and stock['div']!='N/A'%}
+                <p class="card-text">DIVIDEND YIELD(%): {{ stock['div']*100 }}</p>
+                {% endif %}
+                {% if flag==8 and stock['mcap']!='N/A' %}
+                <p class="card-text">Market Cap: {{ '{:.2f}'.format(stock['mcap']) }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
